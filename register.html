@@ -31,10 +31,13 @@
             processData: false,
             contentType: false,
             success: function (response) {
-                console.log(response);
+                if(response == "success")
+                    window.location.replace("/login");
+                else
+                    alert(response);
             },
             error: function (xhr, status, error) {
-                console.error(error);
+                alert(xhr.responseText);
             }
         });
     }
