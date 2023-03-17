@@ -11,18 +11,18 @@
 
 <script>
     function login(username, password) {
-        let username = $("#username").val();
-        let password = $("#password").val();
-        let password_check = $("#password_confirmation").val();
+        let name = $("#username").val();
+        let pass = $("#password").val();
+        let pass_check = $("#password_confirmation").val();
 
-        if (password != password_check) {
+        if (pass != pass_check) {
             alert("Passwords do not match");
             return;
         }
 
         const formData = new FormData();
-        formData.append('username', username);
-        formData.append('password', password);
+        formData.append('username', name);
+        formData.append('password', pass);
 
         $.ajax({
             url: '/register',
