@@ -5,14 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="//shortenerchat.pages.dev/static/style.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="//cdn.tailwindcss.com"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <script>
     function login() {
         let name = $("#username").val();
         let pass = $("#password").val();
+
+        if (name == "" || pass == "") {
+            swal.fire({
+                title: "Oops!",
+                text: "Please fill in all fields",
+                icon: "error",
+                confirmButtonText: "ok"
+            });
+            return;
+        }
 
         const formData = new FormData();
         formData.append('username', name);
@@ -25,41 +37,53 @@
             processData: false,
             contentType: false,
             success: function (response) {
-                if(response == "success")
+                if (response == "success")
                     window.location.replace("/");
-                else
-                    alert(response);
+                if (response == "wrong")
+                    swal.fire({
+                        title: "Oops!",
+                        text: "Account or password is incorrect",
+                        icon: "error",
+                        confirmButtonText: "ok"
+                    });
             },
             error: function (xhr, status, error) {
-                alert(xhr.responseText);
+                swal.fire({
+                    title: "Something went wrong",
+                    text: "Plase try again later",
+                    icon: "error",
+                    confirmButtonText: "ok"
+                });
             }
         });
     }
 </script>
 
-<body class="bg-gray-800">
+<body class="bg-gray-900">
     <div class="flex items-center justify-center min-h-screen">
-        <div class="max-w-md w-full">
-            <div class="bg-gray-900 p-8 rounded-lg shadow-lg">
-                <h1 class="text-2xl font-medium mb-4 text-white">Login</h1>
-                <div class="mb-4">
-                    <label class="block text-gray-500 font-medium mb-2" for="email">Username</label>
-                    <input class="bg-gray-700 border-2 border-gray-600 rounded-lg px-3 py-2 w-full text-white"
-                        type="text" name="username" id="username" required>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-gray-500 font-medium mb-2" for="password">Password</label>
-                    <input class="bg-gray-700 border-2 border-gray-600 rounded-lg px-3 py-2 w-full text-white"
-                        type="password" name="password" id="password" required>
-                </div>
-                <div class="flex items-center justify-between">
-                    <button class="bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg"
-                        type="submit" onclick="login();">Login</button>
-                    <a class="text-gray-500 hover:text-gray-400" href="#">Forgot Password?</a>
+        <div class="w-full">
+            <div class="mx-auto max-w-sm w-[90%] p-4 border rounded-lg shadow p-6 bg-gray-800 border-gray-700">
+                <div class="space-y-6" action="#">
+                    <h5 class="text-xl font-medium text-white">Sign in to Shortener Chat</h5>
+                    <div>
+                        <label for="username" class="block mb-2 text-sm font-medium text-white">Account</label>
+                        <input type="text" id="username"
+                            class="border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white">
+                    </div>
+                    <div>
+                        <label for="password" class="block mb-2 text-sm font-medium text-white">Password</label>
+                        <input type="password" id="password"
+                            class="border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white">
+                    </div>
+                    <button type="submit"
+                        class="w-full text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700"
+                        onclick="login();">Login</button>
+                    <div class="text-sm font-medium text-gray-300">
+                        Not registered? <a href="/register" class="hover:underline text-blue-500">Create account</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </body>
 
 </html>
